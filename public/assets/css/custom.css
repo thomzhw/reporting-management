@@ -1,0 +1,232 @@
+.modal-overlay-cs{
+    background-color: rgba(0,0,0,0.5);
+
+}
+.contentData{
+  word-break: break-all;
+  
+}
+.contentData img{
+  max-width:100% !important;
+  height:auto !important;
+}
+.marker
+{
+	background-color: Yellow;
+}
+.mt-124{
+    margin-top: 129px;
+}
+.revealChangeNew{
+    position: absolute;
+    right: 26px;
+    bottom: 10px;
+}
+.dash-card{
+  font-size:38px;
+  font-weight:600;
+  color: #ffffff;
+  font-family: 'Roboto';
+  line-height: 32px;
+}
+.productSearch{
+  margin-top: 19px;
+  width: 30%; 
+  margin-left: 19px;
+}
+.domainSearchReset{
+  margin-top: 19px;
+  margin-left: 12px;
+}
+.listSearchBtn{
+  margin-top:22px;
+}
+.productSeoBtn{
+  color: #fff;
+  background-color: #25b372;
+  border-color: #25b372;
+  float: right;
+  position: absolute;
+  right: 19px;
+}
+.productSeoLegend{
+  padding-bottom: 1.625rem;
+}
+.pdfRemoveIcon{
+  position: absolute;
+    top: 0px;
+    left: 23px;
+}
+.pdfRemoveMSDSIcon{
+  position: absolute;
+    top: 0px;
+    left: 27px;
+}
+.revealChangeConfirm{
+    position: absolute;
+    right: 40px;
+    bottom: 122px;
+}
+.pos-rel{
+    position: relative;
+}
+.loginLogo{
+    text-align: center !important;
+    margin-bottom: 24px !important;
+}
+.delete_all{
+    margin-top: 19px;
+    margin-left: 20px;
+}
+.icn-password{
+    position: absolute;
+    top: 7px;
+    right: 22px;
+}
+.disabled{
+    pointer-events: none;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.sticky + .content {
+padding-top: 102px;
+}
+
+.table_had{
+    background-color: #0569a4;
+    color: #ffffff;
+}
+.addCircle{
+    color: #25b372;
+    font-size: 25px;
+    margin-top: 37px;
+    cursor: pointer;
+}
+
+
+.circle {
+  color: #bb0000;
+  font-size: 25px;
+  margin-top: 7px;
+  cursor: pointer;
+  
+}
+
+.hover-underline-animation {
+    display: inline-block;
+    position: relative;
+    color:
+  #0087ca;
+}
+
+.hover-underline-animation:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color:
+  #0087ca;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+.hover-underline-animation:hover:after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+.editButton{
+    color:#0569a4;
+    /* color:#ffffff; */
+}
+
+
+
+.select2-selection__rendered:after {
+    content: "";
+    font-family: icomoon;
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    right: 1%;
+    margin-top: -0.5rem;
+    font-size: 1rem;
+    line-height: 1;
+    color: inherit;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.page-header-content {
+  height:61px;
+}
+
+.float-left{
+  float: left;
+}
+
+.cookiesContent {
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    color: #000;
+    text-align: center;
+    border-radius: 20px;
+
+  }
+  .cookiesContent button.close {
+    width: 30px;
+    font-size: 20px;
+    color: #c0c5cb;
+    align-self: flex-end;
+    background-color: transparent;
+    border: none;
+    margin-bottom: 10px;
+  }
+  .cookiesContent img {
+    width: 82px;
+    margin-bottom: 15px;
+  }
+  .cookiesContent p {
+    margin-bottom: 40px;
+    font-size: 18px;
+  }
+  .cookiesContent button.accept {
+    background-color: #ed6755;
+    border: none;
+    border-radius: 5px;
+    width: 200px;
+    padding: 14px;
+    font-size: 16px;
+    color: white;
+    box-shadow: 0px 6px 18px -5px #ed6755;
+  }
+  .mr-rght{
+    margin-right: 10px;
+  }
+  .d-model-flex{
+      display: flex;
+
+    }
+
+  @media only screen and (max-width: 640px) {
+    .mt-124{
+        margin-top: 90px;
+    }
+    .d-model-flex{
+      display: flex;
+      flex-direction: column;
+    }
+    .mr-rght{
+      margin-bottom: 15px;
+    }
+  }
