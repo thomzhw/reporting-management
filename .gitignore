@@ -1,1 +1,37 @@
-node_modules
+# Laravel core
+/vendor
+/node_modules
+
+# Laravel environment files
+.env
+.env.*   # For .env.testing, .env.staging, etc.
+
+# Laravel specific directories
+/storage/*.key
+/storage/app/*
+!/storage/app/public
+/storage/framework/*
+!/storage/framework/cache
+!/storage/framework/sessions
+!/storage/framework/views
+/storage/logs/*
+
+# Cache & debug
+.phpunit.result.cache
+.phpstorm.meta.php
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+
+# IDEs & system files
+.idea
+.vscode
+.DS_Store
+Thumbs.db
+
+# Composer & npm artifacts
+composer.lock
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
