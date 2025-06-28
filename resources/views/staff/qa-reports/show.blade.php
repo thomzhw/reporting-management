@@ -76,39 +76,43 @@
             <h5 class="mb-0">QA Checklist Responses</h5>
         </div>
         <div class="card-body">
-            @foreach($report->responses as $index => $response)
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h6 class="mb-0">{{ $index + 1 }}. {{ $response->rule->title }}</h6>
-                    </div>
-                    <div class="card-body">
-                        @if($response->rule->description)
-                            <div class="alert alert-secondary">
-                                {{ $response->rule->description }}
-                            </div>
-                        @endif
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h6 class="font-weight-bold">Your Response:</h6>
-                                <p class="p-3 bg-light rounded">{{ $response->response }}</p>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                @if($response->photo_path)
-                                    <h6 class="font-weight-bold">Evidence Photo:</h6>
-                                    <img src="{{ asset('storage/'.$response->photo_path) }}" class="img-fluid img-thumbnail" alt="Evidence photo">
-                                    <a href="{{ asset('storage/'.$response->photo_path) }}" target="_blank" class="btn btn-sm btn-info mt-2">
-                                        <i class="fas fa-external-link-alt mr-1"></i> View Full Size
-                                    </a>
-                                @elseif($response->rule->requires_photo)
-                                    <div class="alert alert-danger">Missing required photo evidence</div>
-                                @endif
+        @foreach($report->responses as $response)
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h6 class="mb-0">{{ $loop->iteration }}. {{ $response->rule->title }}</h6>
+                </div>
+                <div class="card-body">
+                    <p><strong>Your Response:</strong> {{ $response->response }}</p>
+                    
+                    @if($response->photos->count() > 0)
+                        <div>
+                            <h6>Photo Evidence:</h6>
+                            <div class="row">
+                                @foreach($response->photos as $photo)
+                                    <div class="col-md-4 col-lg-3 mb-3">
+                                        <a href="{{ $photo->photoUrl }}" target="_blank" class="d-block">
+                                            <img src="{{ $photo->photoUrl }}" class="img-thumbnail" alt="Photo Evidence">
+                                        </a>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
-                    </div>
+                    @elseif($response->photo_path)
+                        <!-- For backward compatibility with old single photo path -->
+                        <div>
+                            <h6>Photo Evidence:</h6>
+                            <div class="row">
+                                <div class="col-md-4 col-lg-3">
+                                    <a href="{{ asset('storage/' . $response->photo_path) }}" target="_blank" class="d-block">
+                                        <img src="{{ asset('storage/' . $response->photo_path) }}" class="img-thumbnail" alt="Photo Evidence">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
-            @endforeach
+            </div>
+        @endforeach
         </div>
     </div>
     

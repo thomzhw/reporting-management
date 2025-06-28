@@ -7,7 +7,7 @@
 <!-- End of Topbar -->
     
 <div class="container">
-    <h2>Create Report</h2>
+    <h2>Create QA Template</h2>
     
     <form method="POST" action="{{ route('head.qa-templates.store') }}" enctype="multipart/form-data">
         @csrf
@@ -65,22 +65,27 @@
                         <textarea name="rules[0][description]" class="form-control" rows="2">{{ old('rules.0.description') }}</textarea>
                     </div>
                     
-                    <div class="form-check">
-                        <!-- Input hidden untuk nilai default false -->
+                    <div class="form-check mb-3">
                         <input type="hidden" name="rules[0][requires_photo]" value="0">
-                        
-                        <!-- Checkbox utama -->
                         <input type="checkbox" name="rules[0][requires_photo]" 
                             class="form-check-input"
                             value="1"
                             {{ old('rules.0.requires_photo', false) ? 'checked' : '' }}>
-                            
                         <label class="form-check-label">Require Photo Evidence</label>
                     </div>
 
-                    <div class="form-group mt-2">
-                        <label>Photo Example (Optional)</label>
-                        <input type="file" name="rules[0][photo_example]" class="form-control-file">
+                    <div class="form-group">
+                        <label>Example Photos (Optional)</label>
+                        <div class="photo-container" data-rule-index="0">
+                            <div class="mb-3 photo-item">
+                                <div class="input-group">
+                                    <input type="file" name="rules[0][photos][]" class="form-control" accept="image/*">
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-outline-secondary add-more-photos" data-rule-index="0">+ Add Another Photo</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
                     <button type="button" class="btn btn-danger btn-sm mt-2 remove-rule">Remove Rule</button>
@@ -113,17 +118,26 @@
                     <textarea name="rules[${ruleCount}][description]" class="form-control" rows="2"></textarea>
                 </div>
                 
-                <div class="form-check">
+                <div class="form-check mb-3">
                     <input type="hidden" name="rules[${ruleCount}][requires_photo]" value="0">
                     <input type="checkbox" name="rules[${ruleCount}][requires_photo]" 
                         class="form-check-input" 
                         value="1">
                     <label class="form-check-label">Require Photo Evidence</label>
                 </div>
-
-                <div class="form-group mt-2">
-                    <label>Photo Example (Optional)</label>
-                    <input type="file" name="rules[${ruleCount}][photo_example]" class="form-control-file">
+    
+                <div class="form-group">
+                    <label>Example Photos (Optional)</label>
+                    <div class="photo-container" data-rule-index="${ruleCount}">
+                        <div class="mb-3 photo-item">
+                            <div class="input-group">
+                                <input type="file" name="rules[${ruleCount}][photos][]" class="form-control" accept="image/*">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-secondary add-more-photos" data-rule-index="${ruleCount}">+ Add Another Photo</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <button type="button" class="btn btn-danger btn-sm mt-2 remove-rule">Remove Rule</button>
@@ -136,7 +150,63 @@
     
     document.addEventListener('click', (e) => {
         if (e.target.classList.contains('remove-rule')) {
+            // Don't remove if it's the only rule left
+            const ruleItems = document.querySelectorAll('.rule-item');
+            if (ruleItems.length <= 1) {
+                alert('You must have at least one rule!');
+                return;
+            }
+            
             e.target.closest('.rule-item').remove();
+        }
+        
+        // Add the event handler for add-more-photos buttons that already exist
+        if (e.target.classList.contains('add-more-photos')) {
+            addMorePhotos(e.target.dataset.ruleIndex);
+        }
+        
+        // Add event handler for removing photos
+        if (e.target.classList.contains('remove-photo')) {
+            e.target.closest('.photo-item').remove();
+        }
+    });
+    
+    // Use event delegation for all dynamic buttons
+    document.addEventListener('click', (e) => {
+        // Handle remove rule button
+        if (e.target.classList.contains('remove-rule')) {
+            // Don't remove if it's the only rule left
+            const ruleItems = document.querySelectorAll('.rule-item');
+            if (ruleItems.length <= 1) {
+                alert('You must have at least one rule!');
+                return;
+            }
+            
+            e.target.closest('.rule-item').remove();
+        }
+        
+        // Handle add more photos button
+        if (e.target.classList.contains('add-more-photos')) {
+            const ruleIndex = e.target.dataset.ruleIndex;
+            const photoContainer = document.querySelector(`.photo-container[data-rule-index="${ruleIndex}"]`);
+            
+            const newPhotoItem = document.createElement('div');
+            newPhotoItem.className = 'mb-3 photo-item';
+            newPhotoItem.innerHTML = `
+                <div class="input-group">
+                    <input type="file" name="rules[${ruleIndex}][photos][]" class="form-control" accept="image/*">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-outline-danger remove-photo">Remove</button>
+                    </div>
+                </div>
+            `;
+            
+            photoContainer.appendChild(newPhotoItem);
+        }
+        
+        // Handle remove photo button
+        if (e.target.classList.contains('remove-photo')) {
+            e.target.closest('.photo-item').remove();
         }
     });
 </script>

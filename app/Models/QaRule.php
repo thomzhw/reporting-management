@@ -23,6 +23,11 @@ class QaRule extends Model
         return $this->belongsTo(QaTemplate::class);
     }
 
+    public function photos()
+    {
+        return $this->hasMany(QaRulePhoto::class, 'rule_id')->orderBy('order');
+    }
+
     public function getPhotoExampleUrlAttribute()
     {
         return $this->photo_example_path ? asset('storage/'.$this->photo_example_path) : null;

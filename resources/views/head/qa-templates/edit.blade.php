@@ -5,6 +5,35 @@
 <!-- Topbar -->
 @include('layouts.topbar')
 <!-- End of Topbar -->
+
+<style>
+    /* Add consistent styling for photos */
+    .photo-card {
+        height: 100%;
+    }
+    
+    .photo-card .card-img-top {
+        height: 160px;
+        object-fit: cover;
+        width: 100%;
+    }
+    
+    .photo-preview {
+        height: 160px;
+        object-fit: cover;
+        width: 100%;
+        border-radius: 4px;
+        margin-top: 8px;
+    }
+    
+    .photo-item {
+        margin-bottom: 15px;
+    }
+    
+    .photo-container {
+        margin-bottom: 15px;
+    }
+</style>
     
 <div class="container">
     <h2>Edit QA Template</h2>
@@ -57,10 +86,11 @@
             @foreach($template->rules as $index => $rule)
                 <div class="rule-item card mb-3">
                     <div class="card-body">
+                        <input type="hidden" name="rules[{{ $index }}][id]" value="{{ $rule->id }}">
+                        
                         <div class="form-group">
                             <label>Rule Title</label>
                             <input type="text" name="rules[{{ $index }}][title]" class="form-control" required value="{{ old("rules.$index.title", $rule->title) }}">
-                            <input type="hidden" name="rules[{{ $index }}][id]" value="{{ $rule->id }}">
                         </div>
                         
                         <div class="form-group">
@@ -68,35 +98,51 @@
                             <textarea name="rules[{{ $index }}][description]" class="form-control" rows="2">{{ old("rules.$index.description", $rule->description) }}</textarea>
                         </div>
                         
-                        <div class="form-check">
-                            <!-- Input hidden untuk nilai default false -->
+                        <div class="form-check mb-3">
                             <input type="hidden" name="rules[{{ $index }}][requires_photo]" value="0">
-                            
-                            <!-- Checkbox utama -->
                             <input type="checkbox" name="rules[{{ $index }}][requires_photo]" 
                                 class="form-check-input"
                                 value="1"
                                 {{ old("rules.$index.requires_photo", $rule->requires_photo) ? 'checked' : '' }}>
-                                
                             <label class="form-check-label">Require Photo Evidence</label>
                         </div>
 
-                        <div class="form-group mt-2">
-                            <label>Photo Example</label>
+                        <div class="form-group">
+                            <label>Example Photos</label>
                             
-                            @if($rule->photo_example_path)
-                                <div class="mb-2">
-                                    <img src="{{ $rule->photo_example_url }}" class="img-thumbnail" style="max-height: 150px;">
-                                    
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="remove_photo_{{ $index }}" name="rules[{{ $index }}][remove_photo]" value="1">
-                                        <label class="form-check-label" for="remove_photo_{{ $index }}">Remove current photo</label>
+                            <!-- Existing Photos -->
+                            @if($rule->photos->count() > 0)
+                                <div class="existing-photos mb-3">
+                                    <div class="row">
+                                        @foreach($rule->photos as $photo)
+                                            <div class="col-md-4 col-lg-3 mb-3">
+                                                <div class="card photo-card">
+                                                    <img src="{{ $photo->photoUrl }}" class="card-img-top" alt="Example photo">
+                                                    <div class="card-body p-2">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" name="rules[{{ $index }}][remove_photos][]" value="{{ $photo->id }}" class="form-check-input">
+                                                            <label class="form-check-label">Remove</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             @endif
                             
-                            <input type="file" name="rules[{{ $index }}][photo_example]" class="form-control-file">
-                            <small class="text-muted">Leave empty to keep current image</small>
+                            <!-- Add New Photos -->
+                            <div class="photo-container" data-rule-index="{{ $index }}">
+                                <div class="mb-3 photo-item">
+                                    <div class="input-group">
+                                        <input type="file" name="rules[{{ $index }}][photos][]" class="form-control" accept="image/*">
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-outline-secondary add-more-photos" data-rule-index="{{ $index }}">+ Add Another Photo</button>
+                                        </div>
+                                    </div>
+                                    <div class="preview-area"></div>
+                                </div>
+                            </div>
                         </div>
                         
                         <button type="button" class="btn btn-danger btn-sm mt-2 remove-rule">Remove Rule</button>
@@ -131,9 +177,12 @@
                 <div class="form-group">
                     <label>Rule Description</label>
                     <textarea name="rules[${ruleCount}][description]" class="form-control" rows="2"></textarea>
+                    <div class="form-group">
+                    <label>Rule Description</label>
+                    <textarea name="rules[${ruleCount}][description]" class="form-control" rows="2"></textarea>
                 </div>
                 
-                <div class="form-check">
+                <div class="form-check mb-3">
                     <input type="hidden" name="rules[${ruleCount}][requires_photo]" value="0">
                     <input type="checkbox" name="rules[${ruleCount}][requires_photo]" 
                         class="form-check-input" 
@@ -141,9 +190,19 @@
                     <label class="form-check-label">Require Photo Evidence</label>
                 </div>
 
-                <div class="form-group mt-2">
-                    <label>Photo Example (Optional)</label>
-                    <input type="file" name="rules[${ruleCount}][photo_example]" class="form-control-file">
+                <div class="form-group">
+                    <label>Example Photos (Optional)</label>
+                    <div class="photo-container" data-rule-index="${ruleCount}">
+                        <div class="mb-3 photo-item">
+                            <div class="input-group">
+                                <input type="file" name="rules[${ruleCount}][photos][]" class="form-control" accept="image/*">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-secondary add-more-photos" data-rule-index="${ruleCount}">+ Add Another Photo</button>
+                                </div>
+                            </div>
+                            <div class="preview-area"></div>
+                        </div>
+                    </div>
                 </div>
                 
                 <button type="button" class="btn btn-danger btn-sm mt-2 remove-rule">Remove Rule</button>
@@ -154,12 +213,65 @@
         ruleCount++;
     });
     
+    // Use event delegation for all dynamic buttons
     document.addEventListener('click', (e) => {
+        // Handle remove rule button
         if (e.target.classList.contains('remove-rule')) {
-            if (document.querySelectorAll('.rule-item').length > 1) {
-                e.target.closest('.rule-item').remove();
-            } else {
-                alert('You must have at least one rule in the template.');
+            // Don't remove if it's the only rule left
+            const ruleItems = document.querySelectorAll('.rule-item');
+            if (ruleItems.length <= 1) {
+                alert('You must have at least one rule!');
+                return;
+            }
+            
+            e.target.closest('.rule-item').remove();
+        }
+        
+        // Handle add more photos button
+        if (e.target.classList.contains('add-more-photos')) {
+            const ruleIndex = e.target.dataset.ruleIndex;
+            const photoContainer = document.querySelector(`.photo-container[data-rule-index="${ruleIndex}"]`);
+            
+            const newPhotoItem = document.createElement('div');
+            newPhotoItem.className = 'mb-3 photo-item';
+            newPhotoItem.innerHTML = `
+                <div class="input-group">
+                    <input type="file" name="rules[${ruleIndex}][photos][]" class="form-control" accept="image/*">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-outline-danger remove-photo">Remove</button>
+                    </div>
+                </div>
+                <div class="preview-area"></div>
+            `;
+            
+            photoContainer.appendChild(newPhotoItem);
+        }
+        
+        // Handle remove photo button
+        if (e.target.classList.contains('remove-photo')) {
+            e.target.closest('.photo-item').remove();
+        }
+    });
+    
+    // Add image preview functionality
+    document.addEventListener('change', function(e) {
+        if (e.target && e.target.type === 'file' && e.target.accept.includes('image')) {
+            const fileInput = e.target;
+            const previewArea = fileInput.closest('.photo-item').querySelector('.preview-area');
+            
+            // Clear any existing preview
+            previewArea.innerHTML = '';
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    previewArea.innerHTML = `
+                        <img src="${e.target.result}" class="photo-preview mt-2" alt="Image preview">
+                    `;
+                }
+                
+                reader.readAsDataURL(fileInput.files[0]);
             }
         }
     });

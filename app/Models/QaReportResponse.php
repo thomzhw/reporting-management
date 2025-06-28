@@ -20,4 +20,9 @@ class QaReportResponse extends Model
     {
         return $this->belongsTo(QaRule::class);
     }
+
+    public function photos()
+    {
+        return $this->hasMany(QaReportResponsePhoto::class, 'response_id');
+    }
 }

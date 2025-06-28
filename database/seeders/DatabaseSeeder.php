@@ -41,10 +41,8 @@ class DatabaseSeeder extends Seeder
             ['slug' => 'head.qa.assign', 'description' => 'Assign QA Templates'],
 
             // Staff permissions
-            ['slug' => 'staff.access', 'description' => 'Access Staff Dashboard'], // Tambahkan ini
+            ['slug' => 'staff.access', 'description' => 'Access Staff Dashboard'],
             ['slug' => 'staff.qa.submit', 'description' => 'Submit QA Reports'],
-            
-            // Tambahkan izin staff lainnya jika Anda mengimplementasikan rute staff.profile, staff.my-performance, staff.my-tasks
             ['slug' => 'staff.profile.view', 'description' => 'View own profile'],
             ['slug' => 'staff.performance.view', 'description' => 'View personal performance reports'],
             ['slug' => 'staff.tasks.view', 'description' => 'View assigned tasks'],
@@ -55,8 +53,17 @@ class DatabaseSeeder extends Seeder
         }
 
         // ===================== ROLE PERMISSION ASSIGNMENT =====================
-        // Beri semua permission ke superuser
-        $superuser->permissions()->attach(Permission::all()->pluck('id'));
+        // Assign ONLY superuser permissions to superuser role
+        $superuserPermissions = [
+            'user.manage',
+            'role.manage',
+            'permission.manage',
+            'superuser.access',
+            'superuser.outlet.manage'
+        ];
+        $superuser->permissions()->attach(
+            Permission::whereIn('slug', $superuserPermissions)->pluck('id')
+        );
 
         // Assign permission ke role head
         $headPermissions = [
@@ -74,11 +81,11 @@ class DatabaseSeeder extends Seeder
 
         // Assign permission ke role staff
         $staffPermissions = [
-            'staff.access', // Tambahkan izin ini
+            'staff.access',
             'staff.qa.submit',
-            'staff.profile.view', // Tambahkan ini sesuai rute yang diusulkan
-            'staff.performance.view', // Tambahkan ini sesuai rute yang diusulkan
-            'staff.tasks.view', // Tambahkan ini sesuai rute yang diusulkan
+            'staff.profile.view',
+            'staff.performance.view',
+            'staff.tasks.view',
         ];
         $staff->permissions()->attach(
             Permission::whereIn('slug', $staffPermissions)->pluck('id')

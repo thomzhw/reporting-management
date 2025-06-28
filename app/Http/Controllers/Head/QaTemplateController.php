@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Head;
 use App\Http\Controllers\Controller;
 use App\Models\QaTemplate;
 use App\Models\QaRule;
+use App\Models\QaRulePhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -34,47 +35,6 @@ class QaTemplateController extends Controller
         
         return view('head.qa-templates.create', compact('outlets', 'outlet'));
     }
-    
-
-    // Simpan template baru
-    // public function store(Request $request)
-    // {
-    //     $request->validate([
-    //         'name' => 'required|string|max:255',
-    //         'description' => 'nullable|string',
-    //         'rules' => 'required|array|min:1',
-    //         'rules.*.title' => 'required|string|max:255',
-    //         'rules.*.description' => 'nullable|string',
-    //         'rules.*.requires_photo' => 'sometimes|boolean',
-    //         'rules.*.photo_example' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    //     ]);
-    
-    //     $template = QaTemplate::create([
-    //         'head_id' => Auth::id(),
-    //         'name' => $request->name,
-    //         'description' => $request->description,
-    //     ]);
-    
-    //     foreach ($request->rules as $index => $rule) {
-    //         $ruleData = [
-    //             'template_id' => $template->id,
-    //             'title' => $rule['title'],
-    //             'description' => $rule['description'],
-    //             'requires_photo' => $rule['requires_photo'] ?? false,
-    //             'order' => $index,
-    //         ];
-    
-    //         // Handle photo example upload
-    //         if ($request->hasFile("rules.$index.photo_example")) {
-    //             $path = $request->file("rules.$index.photo_example")->store('qa_examples', 'public');
-    //             $ruleData['photo_example_path'] = $path;
-    //         }
-    
-    //         QaRule::create($ruleData);
-    //     }
-    
-    //     return redirect()->route('head.qa-templates')->with('success', 'Template created successfully!');
-    // }
 
     public function store(Request $request)
     {
@@ -87,10 +47,10 @@ class QaTemplateController extends Controller
             'rules.*.title' => 'required|string|max:255',
             'rules.*.description' => 'nullable|string',
             'rules.*.requires_photo' => 'sometimes|boolean',
-            'rules.*.photo_example' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'rules.*.photos.*' => 'nullable|image|max:2048', // Add validation for images
         ]);
 
-        // Verify that the head manages this outlet
+        // Verify outlet management
         if (!auth()->user()->managedOutlets->contains($request->outlet_id)) {
             return back()->withErrors(['outlet_id' => 'You can only create templates for outlets you manage.']);
         }
@@ -103,22 +63,38 @@ class QaTemplateController extends Controller
             'category' => $request->category,
         ]);
         
-        foreach ($request->rules as $index => $rule) {
-            $ruleData = [
+        foreach ($request->rules as $index => $ruleData) {
+            $rule = QaRule::create([
                 'template_id' => $template->id,
-                'title' => $rule['title'],
-                'description' => $rule['description'],
-                'requires_photo' => $rule['requires_photo'] ?? false,
+                'title' => $ruleData['title'],
+                'description' => $ruleData['description'] ?? null,
+                'requires_photo' => isset($ruleData['requires_photo']) && $ruleData['requires_photo'] == '1',
                 'order' => $index,
-            ];
-        
-            // Handle photo example upload
-            if ($request->hasFile("rules.$index.photo_example")) {
-                $path = $request->file("rules.$index.photo_example")->store('qa_examples', 'public');
-                $ruleData['photo_example_path'] = $path;
+            ]);
+            
+            // Handle file uploads
+            try {
+                if ($request->hasFile("rules.$index.photos")) {
+                    $photos = $request->file("rules.$index.photos");
+                    
+                    foreach ($photos as $photoIndex => $photo) {
+                        $path = $photo->store('qa_examples', 'public');
+                        
+                        QaRulePhoto::create([
+                            'rule_id' => $rule->id,
+                            'photo_path' => $path,
+                            'order' => $photoIndex
+                        ]);
+                        
+                    }
+                }
+            } catch (\Exception $e) {
+                \Log::error('Error uploading photos:', [
+                    'rule_id' => $rule->id,
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString()
+                ]);
             }
-        
-            QaRule::create($ruleData);
         }
         
         return redirect()->route('head.qa-templates')->with('success', 'Template created successfully!');
@@ -149,8 +125,10 @@ class QaTemplateController extends Controller
             'rules.*.title' => 'required|string|max:255',
             'rules.*.description' => 'nullable|string',
             'rules.*.requires_photo' => 'sometimes|boolean',
-            'rules.*.photo_example' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'rules.*.remove_photo' => 'sometimes|boolean',
+            'rules.*.photos' => 'nullable|array',
+            'rules.*.photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'rules.*.remove_photos' => 'nullable|array',
+            'rules.*.remove_photos.*' => 'nullable|integer|exists:qa_rule_photos,id',
         ]);
 
         // Verify that the head manages this outlet
@@ -165,49 +143,53 @@ class QaTemplateController extends Controller
             'category' => $request->category,
         ]);
 
-        foreach ($request->rules as $index => $rule) {
-            $ruleData = [
-                'title' => $rule['title'],
-                'description' => $rule['description'],
-                'requires_photo' => $rule['requires_photo'] ?? false,
-                'order' => $index,
-            ];
-
-            // Update existing or create new
-            if (isset($rule['id'])) {
-                $existingRule = QaRule::find($rule['id']);
-                
-                // Handle photo removal
-                if (isset($rule['remove_photo']) && $rule['remove_photo']) {
-                    // Hapus file fisik jika ada
-                    if ($existingRule->photo_example_path) {
-                        Storage::disk('public')->delete($existingRule->photo_example_path);
-                    }
-                    $ruleData['photo_example_path'] = null;
-                }
-                
-                // Handle photo example upload
-                if ($request->hasFile("rules.$index.photo_example")) {
-                    // Hapus foto lama jika ada
-                    if ($existingRule->photo_example_path) {
-                        Storage::disk('public')->delete($existingRule->photo_example_path);
-                    }
-                    
-                    // Simpan foto baru
-                    $path = $request->file("rules.$index.photo_example")->store('qa_examples', 'public');
-                    $ruleData['photo_example_path'] = $path;
-                }
-                
-                $existingRule->update($ruleData);
+        foreach ($request->rules as $index => $ruleData) {
+            // Update or create rule
+            if (isset($ruleData['id'])) {
+                $rule = QaRule::find($ruleData['id']);
+                $rule->update([
+                    'title' => $ruleData['title'],
+                    'description' => $ruleData['description'] ?? null,
+                    'requires_photo' => $ruleData['requires_photo'] ?? false,
+                    'order' => $index,
+                ]);
             } else {
-                // Handle photo example upload untuk rule baru
-                if ($request->hasFile("rules.$index.photo_example")) {
-                    $path = $request->file("rules.$index.photo_example")->store('qa_examples', 'public');
-                    $ruleData['photo_example_path'] = $path;
+                $rule = QaRule::create([
+                    'template_id' => $template->id,
+                    'title' => $ruleData['title'],
+                    'description' => $ruleData['description'] ?? null,
+                    'requires_photo' => $ruleData['requires_photo'] ?? false,
+                    'order' => $index,
+                ]);
+            }
+            
+            // Handle photo removals
+            if (isset($ruleData['remove_photos']) && is_array($ruleData['remove_photos'])) {
+                foreach ($ruleData['remove_photos'] as $photoId) {
+                    $photo = QaRulePhoto::find($photoId);
+                    if ($photo && $photo->rule_id == $rule->id) {
+                        // Delete the file
+                        Storage::disk('public')->delete($photo->photo_path);
+                        // Delete the record
+                        $photo->delete();
+                    }
                 }
-                
-                $ruleData['template_id'] = $template->id;
-                QaRule::create($ruleData);
+            }
+
+            // Handle new photo uploads
+            if (isset($ruleData['photos']) && is_array($ruleData['photos'])) {
+                foreach ($ruleData['photos'] as $photoIndex => $photo) {
+                    if ($request->hasFile("rules.$index.photos.$photoIndex")) {
+                        $path = $request->file("rules.$index.photos.$photoIndex")->store('qa_examples', 'public');
+                        
+                        QaRulePhoto::create([
+                            'rule_id' => $rule->id,
+                            'photo_path' => $path,
+                            'caption' => $ruleData['photo_captions'][$photoIndex] ?? null,
+                            'order' => $rule->photos()->count() // Add at the end
+                        ]);
+                    }
+                }
             }
         }
 

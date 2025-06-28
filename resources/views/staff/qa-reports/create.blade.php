@@ -23,18 +23,6 @@
         </div>
     @endif
     
-    <!-- Display Previous Rejection Feedback if Available -->
-    @if($assignment->report && $assignment->report->status == 'rejected')
-        <div class="alert alert-warning">
-            <h5><i class="fas fa-exclamation-triangle mr-1"></i> This report was previously rejected</h5>
-            @if($assignment->report->feedback)
-                <hr>
-                <p><strong>Feedback from Head:</strong> {{ $assignment->report->feedback }}</p>
-                <p class="mb-0">Please address this feedback in your new submission.</p>
-            @endif
-        </div>
-    @endif
-    
     <!-- Assignment Information Card -->
     <div class="card mb-4">
         <div class="card-header">
@@ -82,7 +70,7 @@
             </div>
             <div class="card-body">
                 @foreach($assignment->template->rules as $index => $rule)
-                    <div class="card mb-4">
+                <div class="card mb-4">
                         <div class="card-header">
                             <h6 class="mb-0">{{ $index + 1 }}. {{ $rule->title }}</h6>
                         </div>
@@ -91,10 +79,27 @@
                                 <p class="mb-3">{{ $rule->description }}</p>
                             @endif
                             
-                            @if($rule->photo_example_path)
+                            <!-- Example Photos -->
+                            @if($rule->photos->count() > 0)
                                 <div class="mb-3">
-                                    <h6>Example:</h6>
-                                    <img src="{{ asset('storage/'.$rule->photo_example_path) }}" class="img-thumbnail" style="max-height: 200px;">
+                                    <h6>Example Photos:</h6>
+                                    <div class="row">
+                                        @foreach($rule->photos as $photo)
+                                            <div class="col-md-4 mb-2">
+                                                <a href="{{ $photo->photoUrl }}" target="_blank" class="example-photo-link">
+                                                    <img src="{{ $photo->photoUrl }}" class="img-thumbnail" style="max-height: 150px;">
+                                                </a>
+                                                @if($photo->caption)
+                                                    <p class="small text-muted">{{ $photo->caption }}</p>
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <div class="mt-2">
+                                        <button type="button" class="btn btn-sm btn-outline-primary toggle-examples">
+                                            <i class="fas fa-images"></i> Show/Hide Example Photos
+                                        </button>
+                                    </div>
                                 </div>
                             @endif
                             
@@ -106,15 +111,33 @@
                             @if($rule->requires_photo)
                                 <div class="form-group">
                                     <label><strong>Photo Evidence:</strong> <span class="text-danger">*</span></label>
-                                    <input type="file" name="responses[{{ $rule->id }}][photo]" class="form-control-file" accept="image/*" required>
-                                    <small class="text-muted">Please upload a photo as evidence for this item. (Required)</small>
+                                    <div class="photo-container" data-rule-index="{{ $rule->id }}">
+                                        <div class="mb-3 photo-item">
+                                            <div class="input-group">
+                                                <input type="file" name="responses[{{ $rule->id }}][photos][]" class="form-control" accept="image/*" required>
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-outline-secondary add-more-photos" data-rule-index="{{ $rule->id }}">+ Add Another Photo</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <small class="text-muted">Please upload at least one photo as evidence for this item. (Required)</small>
                                 </div>
                             @else
                                 <div class="form-group">
-                                    <label><strong>Photo Evidence:</strong> <small>(Optional)</small></label>
-                                    <input type="file" name="responses[{{ $rule->id }}][photo]" class="form-control-file" accept="image/*">
-                                    <small class="text-muted">You may upload a photo as additional evidence if needed.</small>
-                                </div>
+                                        <label><strong>Photo Evidence:</strong> <small>(Optional)</small></label>
+                                        <div class="photo-container" data-rule-index="{{ $rule->id }}">
+                                            <div class="mb-3 photo-item">
+                                                <div class="input-group">
+                                                    <input type="file" name="responses[{{ $rule->id }}][photos][]" class="form-control" accept="image/*">
+                                                    <div class="input-group-append">
+                                                        <button type="button" class="btn btn-outline-secondary add-more-photos" data-rule-index="{{ $rule->id }}">+ Add Another Photo</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <small class="text-muted">You may upload photos as additional evidence if needed.</small>
+                                    </div>
                             @endif
                             
                             <!-- Display previous responses if this is a rejected report resubmission -->
@@ -128,7 +151,18 @@
                                         <h6><i class="fas fa-history mr-1"></i> Your Previous Response:</h6>
                                         <p class="mb-1">{{ $prevResponse->response }}</p>
                                         
-                                        @if($prevResponse->photo_path)
+                                        @if($prevResponse->photos->count() > 0)
+                                            <div class="mt-2">
+                                                <h6>Previous Photos:</h6>
+                                                <div class="row">
+                                                    @foreach($prevResponse->photos as $photo)
+                                                        <div class="col-md-3 mb-2">
+                                                            <img src="{{ $photo->photoUrl }}" class="img-thumbnail" style="max-height: 100px;">
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @elseif($prevResponse->photo_path)
                                             <div class="mt-2">
                                                 <h6>Previous Photo:</h6>
                                                 <img src="{{ asset('storage/'.$prevResponse->photo_path) }}" class="img-thumbnail" style="max-height: 100px;">
@@ -160,5 +194,80 @@
         </div>
     </form>
 </div>
+
+<script>
+    // Add lightbox functionality for example photos
+    document.querySelectorAll('.example-photo-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Create a modal/lightbox effect
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.8)';
+            modal.style.display = 'flex';
+            modal.style.justifyContent = 'center';
+            modal.style.alignItems = 'center';
+            modal.style.zIndex = '1000';
+            
+            const img = document.createElement('img');
+            img.src = this.getAttribute('href');
+            img.style.maxHeight = '90%';
+            img.style.maxWidth = '90%';
+            img.style.objectFit = 'contain';
+            
+            modal.appendChild(img);
+            document.body.appendChild(modal);
+            
+            modal.addEventListener('click', function() {
+                document.body.removeChild(modal);
+            });
+        });
+    });
+    
+    // Add toggle functionality for example photos
+    document.querySelectorAll('.toggle-examples').forEach(button => {
+        button.addEventListener('click', function() {
+            const photoContainer = this.closest('.mb-3').querySelector('.row');
+            if (photoContainer.style.display === 'none') {
+                photoContainer.style.display = 'flex';
+                this.innerHTML = '<i class="fas fa-images"></i> Hide Example Photos';
+            } else {
+                photoContainer.style.display = 'none';
+                this.innerHTML = '<i class="fas fa-images"></i> Show Example Photos';
+            }
+        });
+    });
+
+    // Add this to your existing script section
+    document.addEventListener('click', (e) => {
+        // Handle add more photos button
+        if (e.target.classList.contains('add-more-photos')) {
+            const ruleIndex = e.target.dataset.ruleIndex;
+            const photoContainer = document.querySelector(`.photo-container[data-rule-index="${ruleIndex}"]`);
+            
+            const newPhotoItem = document.createElement('div');
+            newPhotoItem.className = 'mb-3 photo-item';
+            newPhotoItem.innerHTML = `
+                <div class="input-group">
+                    <input type="file" name="responses[${ruleIndex}][photos][]" class="form-control" accept="image/*">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-outline-danger remove-photo">Remove</button>
+                    </div>
+                </div>
+            `;
+            
+            photoContainer.appendChild(newPhotoItem);
+        }
+        
+        // Handle remove photo button
+        if (e.target.classList.contains('remove-photo')) {
+            e.target.closest('.photo-item').remove();
+        }
+    });
+</script>
 @endsection
-                            
