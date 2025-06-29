@@ -9,21 +9,18 @@
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Superuser Dashboard</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                <i class="fas fa-download fa-sm text-white-50"></i> Generate Report
-            </a>
         </div>
 
         <!-- Content Row - Overview Cards -->
         <div class="row">
-            <!-- Total Outlets Card -->
+            <!-- Total Remotes Card -->
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Total Outlets</div>
+                                    Total Remotes</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $stats['outlets_count'] }}</div>
                             </div>
                             <div class="col-auto">
@@ -59,7 +56,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                    QA Reports</div>
+                                    Reports</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $stats['reports_count'] }}</div>
                             </div>
                             <div class="col-auto">
@@ -116,7 +113,7 @@
                                 <i class="fas fa-circle text-danger"></i> Superusers ({{ $roleData['superuserCount'] }})
                             </span>
                             <span class="mr-2">
-                                <i class="fas fa-circle text-primary"></i> Heads ({{ $roleData['headCount'] }})
+                                <i class="fas fa-circle text-primary"></i> Timhub ({{ $roleData['headCount'] }})
                             </span>
                             <span class="mr-2">
                                 <i class="fas fa-circle text-success"></i> Staff ({{ $roleData['staffCount'] }})
@@ -185,13 +182,13 @@
             </div>
         </div>
 
-        <!-- Content Row - Outlet & QA Status -->
+        <!-- Content Row - Remote & Report Status -->
         <div class="row">
-                        <!-- Outlet Status -->
-                        <div class="col-lg-6 mb-4">
+            <!-- Remotes Status -->
+            <div class="col-lg-6 mb-4">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Outlet Status</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Remotes Status</h6>
                     </div>
                     <div class="card-body">
                         @php
@@ -209,8 +206,8 @@
                                 round(($outletsData['outletsWithNeither'] / $outletsData['totalOutlets']) * 100) : 0;
                         @endphp
                         
-                        <!-- Outlets with Both Head and Staff -->
-                        <h4 class="small font-weight-bold">Outlets with Head & Staff 
+                        <!-- Remotes with Both Timhub and Staff -->
+                        <h4 class="small font-weight-bold">Remotes with Timhub & Staff 
                             <span class="float-right">{{ $outletsWithBothPercentage }}%</span>
                         </h4>
                         <div class="progress mb-4">
@@ -218,8 +215,8 @@
                                 aria-valuenow="{{ $outletsWithBothPercentage }}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                         
-                        <!-- Outlets with Head only -->
-                        <h4 class="small font-weight-bold">Outlets with Head only 
+                        <!-- Remotes with Timhub only -->
+                        <h4 class="small font-weight-bold">Remotes with Timhub only 
                             <span class="float-right">{{ $outletsWithHeadOnlyPercentage }}%</span>
                         </h4>
                         <div class="progress mb-4">
@@ -227,8 +224,8 @@
                                 aria-valuenow="{{ $outletsWithHeadOnlyPercentage }}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                         
-                        <!-- Outlets with Staff only -->
-                        <h4 class="small font-weight-bold">Outlets with Staff only 
+                        <!-- Remotes with Staff only -->
+                        <h4 class="small font-weight-bold">Remotes with Staff only 
                             <span class="float-right">{{ $outletsWithStaffOnlyPercentage }}%</span>
                         </h4>
                         <div class="progress mb-4">
@@ -236,8 +233,8 @@
                                 aria-valuenow="{{ $outletsWithStaffOnlyPercentage }}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                         
-                        <!-- Outlets with neither -->
-                        <h4 class="small font-weight-bold">Unassigned Outlets 
+                        <!-- Remotes with neither -->
+                        <h4 class="small font-weight-bold">Unassigned Remotes 
                             <span class="float-right">{{ $outletsWithNeitherPercentage }}%</span>
                         </h4>
                         <div class="progress mb-4">
@@ -246,8 +243,8 @@
                         </div>
                         
                         <div class="mt-3 d-flex justify-content-between align-items-center">
-                            <p class="mb-0">{{ $outletsData['totalOutlets'] }} outlets total</p>
-                            <a href="{{ route('outlets.index') }}" class="btn btn-sm btn-primary">Manage Outlets</a>
+                            <p class="mb-0">{{ $outletsData['totalOutlets'] }} remotes total</p>
+                            <a href="{{ route('outlets.index') }}" class="btn btn-sm btn-primary">Manage Remotes</a>
                         </div>
                     </div>
                 </div>
@@ -257,7 +254,7 @@
             <div class="col-lg-6 mb-4">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">QA Reports Status</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Reports Status</h6>
                     </div>
                     <div class="card-body">
                         @php
@@ -308,8 +305,8 @@
             </div>
         </div>
 
-                <!-- Content Row - Latest Users and Outlets -->
-                <div class="row">
+        <!-- Content Row - Latest Users and Outlets -->
+        <div class="row">
             <!-- Latest Users -->
             <div class="col-lg-6 mb-4">
                 <div class="card shadow mb-4">
@@ -361,11 +358,11 @@
                 </div>
             </div>
 
-            <!-- Latest Outlets -->
+            <!-- Latest Remotes -->
             <div class="col-lg-6 mb-4">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Latest Outlets</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Latest Remotes</h6>
                         <a href="{{ route('outlets.index') }}" class="btn btn-sm btn-primary">View All</a>
                     </div>
                     <div class="card-body">
@@ -376,7 +373,7 @@
                                         <th>Name</th>
                                         <th>City</th>
                                         <th>Type</th>
-                                        <th>Head Count</th>
+                                        <th>Timhub Count</th>
                                         <th>Staff Count</th>
                                     </tr>
                                 </thead>
@@ -400,7 +397,7 @@
                                     
                                     @if($tableData['latestOutlets']->isEmpty())
                                     <tr>
-                                        <td colspan="5" class="text-center">No outlets found.</td>
+                                        <td colspan="5" class="text-center">No Remotes found.</td>
                                     </tr>
                                     @endif
                                 </tbody>

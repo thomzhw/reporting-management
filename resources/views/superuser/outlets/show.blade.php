@@ -7,16 +7,16 @@
     <div class="container-fluid">
         <!-- Page Heading -->
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Outlet Details</h1>
+            <h1 class="h3 mb-0 text-gray-800">Remote Details</h1>
             <div>
                 <a href="{{ route('outlets.index') }}" class="btn btn-secondary mr-2">
-                    <i class="fas fa-arrow-left"></i> Back to Outlets
+                    <i class="fas fa-arrow-left"></i> Back to Remotes
                 </a>
                 <a href="{{ route('outlets.edit', $outlet) }}" class="btn btn-warning mr-2">
-                    <i class="fas fa-edit"></i> Edit Outlet
+                    <i class="fas fa-edit"></i> Edit Remote
                 </a>
                 <a href="{{ route('outlets.assign-heads', $outlet) }}" class="btn btn-primary">
-                    <i class="fas fa-user-plus"></i> Assign Heads
+                    <i class="fas fa-user-plus"></i> Assign Timhub
                 </a>
             </div>
         </div>
@@ -35,7 +35,7 @@
             <div class="col-xl-6 col-md-6 mb-4">
                 <div class="card shadow h-100">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Outlet Information</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Remote Information</h6>
                     </div>
                     <div class="card-body">
                         <div class="row no-gutters">
@@ -82,11 +82,11 @@
                 </div>
             </div>
             
-            <!-- Assigned Heads -->
+            <!-- Assigned Timhub -->
             <div class="col-xl-6 col-md-6 mb-4">
                 <div class="card shadow h-100">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Assigned Heads</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Assigned Timhub</h6>
                     </div>
                     <div class="card-body">
                         @if($outlet->heads->count() > 0)
@@ -112,9 +112,9 @@
                             </div>
                         @else
                             <div class="text-center py-4">
-                                <p class="text-muted mb-0">No heads assigned to this outlet yet.</p>
+                                <p class="text-muted mb-0">No heads assigned to this remote yet.</p>
                                 <a href="{{ route('outlets.assign-heads', $outlet) }}" class="btn btn-primary btn-sm mt-3">
-                                    <i class="fas fa-user-plus"></i> Assign Heads
+                                    <i class="fas fa-user-plus"></i> Assign Timhub
                                 </a>
                             </div>
                         @endif
@@ -155,17 +155,17 @@
                     </div>
                 @else
                     <div class="text-center py-4">
-                        <p class="text-muted">No staff members assigned to this outlet yet.</p>
-                        <p class="small text-muted">Staff are assigned by the heads responsible for this outlet.</p>
+                        <p class="text-muted">No staff members assigned to this remote yet.</p>
+                        <p class="small text-muted">Staff are assigned by the heads responsible for this remote.</p>
                     </div>
                 @endif
             </div>
         </div>
 
-        <!-- QA Templates -->
+        <!-- Reports -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">QA Templates</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Reports</h6>
             </div>
             <div class="card-body">
                 @if($outlet->qaTemplates->count() > 0)
@@ -193,8 +193,8 @@
                     </div>
                 @else
                     <div class="text-center py-4">
-                        <p class="text-muted">No QA templates created for this outlet yet.</p>
-                        <p class="small text-muted">Templates are created by the heads responsible for this outlet.</p>
+                        <p class="text-muted">No Report created for this remote yet.</p>
+                        <p class="small text-muted">Templates are created by the heads responsible for this remote.</p>
                     </div>
                 @endif
             </div>

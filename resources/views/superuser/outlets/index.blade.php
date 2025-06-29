@@ -6,7 +6,7 @@
 
     <div class="container-fluid">
         <!-- Page Heading -->
-        <h1 class="h3 mb-4 text-gray-800">Manage Outlets</h1>
+        <h1 class="h3 mb-4 text-gray-800">Manage Remotes</h1>
 
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -39,9 +39,9 @@
 
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-bold text-primary">Outlets List</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Remotes List</h6>
                 <a href="{{ route('outlets.create') }}" class="btn btn-primary btn-sm">
-                    <i class="fas fa-plus"></i> Add New Outlet
+                    <i class="fas fa-plus"></i> Add New Remote
                 </a>
             </div>
             <div class="card-body">
@@ -53,7 +53,7 @@
                                 <th>Name</th>
                                 <th>Type</th>
                                 <th>City</th>
-                                <th>Heads</th>
+                                <th>Timhub</th>
                                 <th>Staff</th>
                                 <th>Status</th>
                                 <th>Actions</th>
@@ -87,12 +87,12 @@
                                             <i class="fas fa-edit"></i> Edit
                                         </a>
                                         <a href="{{ route('outlets.assign-heads', $outlet) }}" class="btn btn-primary btn-sm">
-                                            <i class="fas fa-user-plus"></i> Assign Heads
+                                            <i class="fas fa-user-plus"></i> Assign Timhub
                                         </a>
                                         <form action="{{ route('outlets.destroy', $outlet) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this outlet?')">
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this remote?')">
                                                 <i class="fas fa-trash"></i> Delete
                                             </button>
                                         </form>

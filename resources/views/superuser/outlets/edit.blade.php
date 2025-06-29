@@ -7,9 +7,9 @@
     <div class="container-fluid">
         <!-- Page Heading -->
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Edit Outlet</h1>
+            <h1 class="h3 mb-0 text-gray-800">Edit Remotes</h1>
             <a href="{{ route('outlets.index') }}" class="btn btn-secondary">
-                <i class="fas fa-arrow-left"></i> Back to Outlets
+                <i class="fas fa-arrow-left"></i> Back to Remotes
             </a>
         </div>
 
@@ -25,7 +25,7 @@
 
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Outlet Details</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Remote Details</h6>
             </div>
             <div class="card-body">
                 <form method="POST" action="{{ route('outlets.update', $outlet) }}">
@@ -34,7 +34,7 @@
                     
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="name">Outlet Name</label>
+                            <label for="name">Remote Name</label>
                             <input type="text" class="form-control @error('name') is-invalid @enderror" 
                                    id="name" name="name" value="{{ old('name', $outlet->name) }}" required>
                             @error('name')
@@ -43,7 +43,7 @@
                         </div>
                         
                         <div class="col-md-6 mb-3">
-                            <label for="type">Outlet Type</label>
+                            <label for="type">Remote Type</label>
                             <select class="form-control @error('type') is-invalid @enderror" id="type" name="type" required>
                                 <option value="store" {{ old('type', $outlet->type) == 'store' ? 'selected' : '' }}>Store</option>
                                 <option value="restaurant" {{ old('type', $outlet->type) == 'restaurant' ? 'selected' : '' }}>Restaurant</option>
@@ -114,7 +114,7 @@
                         @enderror
                     </div>
                     
-                    <button type="submit" class="btn btn-primary">Update Outlet</button>
+                    <button type="submit" class="btn btn-primary">Update Remote</button>
                 </form>
             </div>
         </div>

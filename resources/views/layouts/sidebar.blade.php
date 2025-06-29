@@ -6,7 +6,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">QA Reporting</div>
+        <div class="sidebar-brand-text mx-3">e-Task</div>
     </a>
 
     <!-- Divider -->
@@ -62,8 +62,8 @@
         @if($user->hasAccess('superuser.outlet.manage'))
             <li class="nav-item {{ request()->routeIs('outlets.*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('outlets.index') }}">
-                    <i class="fas fa-fw fa-store"></i>
-                    <span>Manage Outlets</span>
+                    <i class="fas fa-fw fa-signal"></i>
+                    <span>Manage Remotes</span>
                 </a>
             </li>
         @endif
@@ -93,7 +93,7 @@
             <li class="nav-item {{ request()->routeIs('head.qa-templates*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('head.qa-templates') }}">
                     <i class="fas fa-fw fa-clipboard-list"></i>
-                    <span>QA Templates</span>
+                    <span>Reports</span>
                 </a>
             </li>
         @endif
@@ -103,7 +103,7 @@
             <li class="nav-item {{ request()->routeIs('head.outlets.*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('head.outlets.index') }}">
                     <i class="fas fa-fw fa-building"></i>
-                    <span>My Outlets</span>
+                    <span>My Remotes</span>
                 </a>
             </li>
 
@@ -111,7 +111,7 @@
             <li class="nav-item {{ request()->routeIs('head.assignments.*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('head.assignments.index') }}">
                     <i class="fas fa-fw fa-tasks"></i>
-                    <span>Template Assignments</span>
+                    <span>Report Assignments</span>
                 </a>
             </li>
         @endif
