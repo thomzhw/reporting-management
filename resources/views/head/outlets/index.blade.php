@@ -6,7 +6,7 @@
 
     <div class="container-fluid">
         <!-- Page Heading -->
-        <h1 class="h3 mb-4 text-gray-800">My Outlets</h1>
+        <h1 class="h3 mb-4 text-gray-800">My Remotes</h1>
 
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -57,7 +57,7 @@
             </div>
         @else
             <div class="alert alert-info">
-                <i class="fas fa-info-circle"></i> You don't have any outlets assigned to you yet. Please contact a superuser to assign outlets.
+                <i class="fas fa-info-circle"></i> You don't have any remotes assigned to you yet. Please contact a superuser to assign remotes.
             </div>
         @endif
     </div>

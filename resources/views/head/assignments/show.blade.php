@@ -33,9 +33,9 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <p><strong>Template:</strong> {{ $assignment->template->name }}</p>
+                    <p><strong>Report:</strong> {{ $assignment->template->name }}</p>
                     <p><strong>Staff Member:</strong> {{ $assignment->staff->name }}</p>
-                    <p><strong>Outlet:</strong> {{ $assignment->outlet->name }}</p>
+                    <p><strong>Remote:</strong> {{ $assignment->outlet->name }}</p>
                 </div>
                 <div class="col-md-6">
                     <p><strong>Assigned Date:</strong> {{ $assignment->created_at->format('M d, Y') }}</p>
@@ -84,7 +84,7 @@
     <!-- Template Rules Card -->
     <div class="card mb-4">
         <div class="card-header">
-            <h5 class="mb-0">Template Rules</h5>
+            <h5 class="mb-0">Report Rules</h5>
         </div>
         <div class="card-body">
             <div class="accordion" id="rulesAccordion">

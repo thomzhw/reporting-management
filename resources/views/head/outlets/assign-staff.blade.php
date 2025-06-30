@@ -9,7 +9,7 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="h3 mb-0 text-gray-800">Manage Staff for {{ $outlet->name }}</h1>
             <a href="{{ route('head.outlets.show', $outlet) }}" class="btn btn-secondary">
-                <i class="fas fa-arrow-left"></i> Back to Outlet
+                <i class="fas fa-arrow-left"></i> Back to Remote
             </a>
         </div>
 
@@ -52,7 +52,7 @@
                                         <th>Staff Name</th>
                                         <th>Email</th>
                                         <th>Assign</th>
-                                        <th>Role at Outlet</th>
+                                        <th>Role at Remote</th>
                                     </tr>
                                 </thead>
                                 <tbody>

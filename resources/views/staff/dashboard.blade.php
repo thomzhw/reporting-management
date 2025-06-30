@@ -16,7 +16,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                Pending QA Tasks
+                                Pending Report Tasks
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                 {{ $pendingAssignments->count() }}
@@ -58,7 +58,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Assigned Outlets
+                                Assigned Remotes
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                 {{ $assignedOutlets->count() }}
@@ -97,20 +97,20 @@
     <!-- Pending Assignments -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Pending QA Tasks</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Pending Report Tasks</h6>
         </div>
         <div class="card-body">
             @if($pendingAssignments->isEmpty())
                 <div class="text-center py-4">
-                    <p class="text-muted mb-0">No pending QA tasks at the moment.</p>
+                    <p class="text-muted mb-0">No pending Report tasks at the moment.</p>
                 </div>
             @else
                 <div class="table-responsive">
                     <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>Template</th>
-                                <th>Outlet</th>
+                                <th>Report</th>
+                                <th>Remote</th>
                                 <th>Assigned Date</th>
                                 <th>Due Date</th>
                                 <th>Actions</th>
@@ -155,15 +155,15 @@
         <div class="card-body">
             @if($completedReports->isEmpty())
                 <div class="text-center py-4">
-                    <p class="text-muted mb-0">You haven't completed any QA reports yet.</p>
+                    <p class="text-muted mb-0">You haven't completed any Reports yet.</p>
                 </div>
             @else
                 <div class="table-responsive">
                     <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>Template</th>
-                                <th>Outlet</th>
+                                <th>Report</th>
+                                <th>Remote</th>
                                 <th>Completed Date</th>
                                 <th>Actions</th>
                             </tr>
@@ -191,12 +191,12 @@
     <!-- Assigned Outlets -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">My Assigned Outlets</h6>
+            <h6 class="m-0 font-weight-bold text-primary">My Assigned Remotes</h6>
         </div>
         <div class="card-body">
             @if($assignedOutlets->isEmpty())
                 <div class="text-center py-4">
-                    <p class="text-muted mb-0">You are not assigned to any outlets yet.</p>
+                    <p class="text-muted mb-0">You are not assigned to any remotes yet.</p>
                 </div>
             @else
                 <div class="row">

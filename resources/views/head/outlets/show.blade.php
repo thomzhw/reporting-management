@@ -10,7 +10,7 @@
             <h1 class="h3 mb-0 text-gray-800">{{ $outlet->name }}</h1>
             <div>
                 <a href="{{ route('head.outlets.index') }}" class="btn btn-secondary mr-2">
-                    <i class="fas fa-arrow-left"></i> Back to Outlets
+                    <i class="fas fa-arrow-left"></i> Back to Remotes
                 </a>
                 <a href="{{ route('head.outlets.assign-staff', $outlet) }}" class="btn btn-primary">
                     <i class="fas fa-users"></i> Manage Staff
@@ -32,7 +32,7 @@
             <div class="col-xl-6 col-md-6 mb-4">
                 <div class="card shadow h-100">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Outlet Information</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Remote Information</h6>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
@@ -81,13 +81,13 @@
                             <div class="col-md-6 mb-3">
                                 <a href="{{ route('head.qa-templates.create', ['outlet_id' => $outlet->id]) }}" class="btn btn-success btn-block py-3">
                                     <i class="fas fa-plus-circle mb-2 d-block fa-2x"></i>
-                                    Create QA Template
+                                    Create Report
                                 </a>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <a href="{{ route('head.assignments.create', ['outlet_id' => $outlet->id]) }}" class="btn btn-info btn-block py-3">
                                     <i class="fas fa-tasks mb-2 d-block fa-2x"></i>
-                                    Assign QA Template
+                                    Assign Report
                                 </a>
                             </div>
                             <div class="col-md-12 mb-3">
@@ -142,7 +142,7 @@
                     </div>
                 @else
                     <div class="text-center py-4">
-                        <p class="text-muted">No staff members assigned to this outlet yet.</p>
+                        <p class="text-muted">No staff members assigned to this remote yet.</p>
                         <a href="{{ route('head.outlets.assign-staff', $outlet) }}" class="btn btn-primary">
                             <i class="fas fa-user-plus"></i> Assign Staff
                         </a>
@@ -154,7 +154,7 @@
         <!-- QA Templates -->
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-bold text-primary">QA Templates</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Report</h6>
                 <a href="{{ route('head.qa-templates.create', ['outlet_id' => $outlet->id]) }}" class="btn btn-success btn-sm">
                     <i class="fas fa-plus"></i> Create Template
                 </a>
@@ -194,9 +194,9 @@
                     </div>
                 @else
                     <div class="text-center py-4">
-                        <p class="text-muted">No QA templates created for this outlet yet.</p>
+                        <p class="text-muted">No Report created for this outlet yet.</p>
                         <a href="{{ route('head.qa-templates.create', ['outlet_id' => $outlet->id]) }}" class="btn btn-success">
-                            <i class="fas fa-plus"></i> Create QA Template
+                            <i class="fas fa-plus"></i> Create Report
                         </a>
                     </div>
                 @endif
@@ -206,7 +206,7 @@
         <!-- Recent Assignments -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Recent Template Assignments</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Recent Report Assignments</h6>
             </div>
             <div class="card-body">
                 @php

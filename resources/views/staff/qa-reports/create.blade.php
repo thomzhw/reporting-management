@@ -7,7 +7,7 @@
         
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Complete QA Report</h2>
+        <h2>Complete Report</h2>
         <a href="{{ route('staff.dashboard') }}" class="btn btn-secondary">
             <i class="fas fa-arrow-left"></i> Back to Dashboard
         </a>
@@ -31,8 +31,8 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <p><strong>Template:</strong> {{ $assignment->template->name }}</p>
-                    <p><strong>Outlet:</strong> {{ $assignment->outlet->name }}</p>
+                    <p><strong>Report:</strong> {{ $assignment->template->name }}</p>
+                    <p><strong>Remote:</strong> {{ $assignment->outlet->name }}</p>
                 </div>
                 <div class="col-md-6">
                     <p><strong>Assigned Date:</strong> {{ $assignment->created_at->format('M d, Y') }}</p>
@@ -52,7 +52,7 @@
             
             @if($assignment->notes)
                 <div class="mt-3">
-                    <h6>Notes from Head:</h6>
+                    <h6>Notes from Timhub:</h6>
                     <p class="p-2 bg-light rounded">{{ $assignment->notes }}</p>
                 </div>
             @endif
@@ -66,7 +66,7 @@
         <!-- Rules & Responses -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h5 class="m-0 font-weight-bold text-primary">Quality Assurance Checklist</h5>
+                <h5 class="m-0 font-weight-bold text-primary">Report Checklist</h5>
             </div>
             <div class="card-body">
                 @foreach($assignment->template->rules as $index => $rule)
@@ -184,9 +184,9 @@
                     <button type="submit" class="btn btn-primary btn-lg">
                         <i class="fas fa-paper-plane mr-1"></i> 
                         @if($assignment->report && $assignment->report->status == 'rejected')
-                            Resubmit QA Report
+                            Resubmit Report
                         @else
-                            Submit QA Report
+                            Submit Report
                         @endif
                     </button>
                 </div>

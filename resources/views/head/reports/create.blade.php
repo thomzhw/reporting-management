@@ -57,8 +57,8 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <p><strong>Template:</strong> {{ $report->template->name }}</p>
-                    <p><strong>Outlet:</strong> {{ $report->assignment->outlet->name }}</p>
+                    <p><strong>Report:</strong> {{ $report->template->name }}</p>
+                    <p><strong>Remote:</strong> {{ $report->assignment->outlet->name }}</p>
                 </div>
                 <div class="col-md-6">
                     <p><strong>Completed Date:</strong> {{ $report->completed_at->format('M d, Y, h:i A') }}</p>

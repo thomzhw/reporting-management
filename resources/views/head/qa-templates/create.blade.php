@@ -7,7 +7,7 @@
 <!-- End of Topbar -->
     
 <div class="container">
-    <h2>Create QA Template</h2>
+    <h2>Create Report</h2>
     
     <form method="POST" action="{{ route('head.qa-templates.store') }}" enctype="multipart/form-data">
         @csrf
@@ -15,16 +15,16 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name">Template Name</label>
+                    <label for="name">Report Name</label>
                     <input type="text" name="name" class="form-control" required value="{{ old('name') }}">
                 </div>
             </div>
             
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="outlet_id">Outlet</label>
+                    <label for="outlet_id">Remote</label>
                     <select name="outlet_id" class="form-control" required>
-                        <option value="">-- Select Outlet --</option>
+                        <option value="">-- Select Remote --</option>
                         @foreach($outlets as $outletItem)
                             <option value="{{ $outletItem->id }}" {{ (old('outlet_id') == $outletItem->id || (isset($outlet) && $outlet->id == $outletItem->id)) ? 'selected' : '' }}>
                                 {{ $outletItem->name }} ({{ $outletItem->city }})
@@ -95,7 +95,7 @@
         
         <button type="button" id="add-rule" class="btn btn-secondary mb-3">+ Add Rule</button>
         
-        <button type="submit" class="btn btn-primary">Create Template</button>
+        <button type="submit" class="btn btn-primary">Create Report</button>
     </form>
 </div>
 

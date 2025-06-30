@@ -25,7 +25,7 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Outlet</th>
+                        <th>Remote</th>
                         <th>Category</th>
                         <th>Rules Count</th>
                         <th>Actions</th>

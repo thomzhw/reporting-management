@@ -55,8 +55,8 @@
                                 <thead>
                                     <tr>
                                         <th>Staff</th>
-                                        <th>Template</th>
-                                        <th>Outlet</th>
+                                        <th>Report</th>
+                                        <th>Remote</th>
                                         <th>Submitted</th>
                                         <th>Due Date</th>
                                         <th>Actions</th>
@@ -114,8 +114,8 @@
                                 <thead>
                                     <tr>
                                         <th>Staff</th>
-                                        <th>Template</th>
-                                        <th>Outlet</th>
+                                        <th>Report</th>
+                                        <th>Remote</th>
                                         <th>Submitted</th>
                                         <th>Reviewed</th>
                                         <th>Actions</th>
@@ -164,8 +164,8 @@
                                 <thead>
                                     <tr>
                                         <th>Staff</th>
-                                        <th>Template</th>
-                                        <th>Outlet</th>
+                                        <th>Report</th>
+                                        <th>Remote</th>
                                         <th>Submitted</th>
                                         <th>Reviewed</th>
                                         <th>Actions</th>

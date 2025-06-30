@@ -34,7 +34,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="outlet_id">Outlet</label>
+                            <label for="outlet_id">Remote</label>
                             <select id="outlet_id" name="outlet_id" class="form-control" required>
                                 <option value="">-- Select Outlet --</option>
                                 @foreach($outlets as $outlet)
@@ -71,7 +71,7 @@
                     
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="template_id">QA Template</label>
+                            <label for="template_id">Report</label>
                             <select id="template_id" name="template_id" class="form-control" required disabled>
                                 <option value="">-- Select Outlet First --</option>
                             </select>

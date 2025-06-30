@@ -6,7 +6,7 @@
 <!-- End of Topbar -->
         
 <div class="container">
-    <h2 class="mb-4">My QA Reports</h2>
+    <h2 class="mb-4">My Reports</h2>
     
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -92,7 +92,7 @@
         <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
             @if($assignments->isEmpty())
                 <div class="alert alert-info">
-                    <i class="fas fa-info-circle mr-1"></i> You don't have any QA assignments yet.
+                    <i class="fas fa-info-circle mr-1"></i> You don't have any Report assignments yet.
                 </div>
             @else
                 <div class="card shadow mb-4">
@@ -101,8 +101,8 @@
                             <table class="table table-bordered table-hover" id="allAssignmentsTable">
                                 <thead>
                                     <tr>
-                                        <th>Template</th>
-                                        <th>Outlet</th>
+                                        <th>Report</th>
+                                        <th>Remote</th>
                                         <th>Assigned Date</th>
                                         <th>Status</th>
                                         <th>Actions</th>
@@ -167,7 +167,7 @@
             
             @if($pendingAssignments->isEmpty())
                 <div class="alert alert-success">
-                    <i class="fas fa-check-circle mr-1"></i> You don't have any pending QA tasks.
+                    <i class="fas fa-check-circle mr-1"></i> You don't have any pending Report tasks.
                 </div>
             @else
                 <div class="card shadow mb-4">
@@ -176,8 +176,8 @@
                             <table class="table table-bordered table-hover" id="pendingAssignmentsTable">
                                 <thead>
                                     <tr>
-                                        <th>Template</th>
-                                        <th>Outlet</th>
+                                        <th>Report</th>
+                                        <th>Remote</th>
                                         <th>Assigned Date</th>
                                         <th>Due Date</th>
                                         <th>Actions</th>
@@ -233,8 +233,8 @@
                             <table class="table table-bordered table-hover" id="reviewAssignmentsTable">
                                 <thead>
                                     <tr>
-                                        <th>Template</th>
-                                        <th>Outlet</th>
+                                        <th>Report</th>
+                                        <th>Remote</th>
                                         <th>Submitted Date</th>
                                         <th>Waiting For</th>
                                         <th>Actions</th>
@@ -283,8 +283,8 @@
                             <table class="table table-bordered table-hover" id="approvedAssignmentsTable">
                                 <thead>
                                     <tr>
-                                        <th>Template</th>
-                                        <th>Outlet</th>
+                                        <th>Report</th>
+                                        <th>Remote</th>
                                         <th>Submitted On</th>
                                         <th>Approved On</th>
                                         <th>Actions</th>
@@ -331,8 +331,8 @@
                             <table class="table table-bordered table-hover" id="rejectedAssignmentsTable">
                                 <thead>
                                     <tr>
-                                        <th>Template</th>
-                                        <th>Outlet</th>
+                                        <th>Report</th>
+                                        <th>Remote</th>
                                         <th>Submitted On</th>
                                         <th>Rejected On</th>
                                         <th>Actions</th>

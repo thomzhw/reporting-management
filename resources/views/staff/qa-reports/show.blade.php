@@ -7,7 +7,7 @@
         
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>QA Report Details</h2>
+        <h2>Report Details</h2>
         <a href="{{ route('staff.qa-reports.index') }}" class="btn btn-secondary">
             <i class="fas fa-arrow-left"></i> Back to Reports
         </a>
@@ -24,11 +24,11 @@
     <!-- Report Status Alert -->
     @if($report->status == 'pending_review')
         <div class="alert alert-warning">
-            <i class="fas fa-clock mr-1"></i> <strong>Report Status:</strong> This report is pending review by your head.
+            <i class="fas fa-clock mr-1"></i> <strong>Report Status:</strong> This report is pending review by your timhub.
         </div>
     @elseif($report->status == 'approved')
         <div class="alert alert-success">
-            <i class="fas fa-check-circle mr-1"></i> <strong>Report Status:</strong> This report has been approved by your head.
+            <i class="fas fa-check-circle mr-1"></i> <strong>Report Status:</strong> This report has been approved by your timhub.
             @if($report->feedback)
                 <hr>
                 <strong>Feedback:</strong> {{ $report->feedback }}
@@ -36,7 +36,7 @@
         </div>
     @elseif($report->status == 'rejected')
         <div class="alert alert-danger">
-            <i class="fas fa-times-circle mr-1"></i> <strong>Report Status:</strong> This report has been rejected by your head.
+            <i class="fas fa-times-circle mr-1"></i> <strong>Report Status:</strong> This report has been rejected by your timhub.
             @if($report->feedback)
                 <hr>
                 <strong>Feedback:</strong> {{ $report->feedback }}
@@ -57,8 +57,8 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <p><strong>Template:</strong> {{ $report->template->name }}</p>
-                    <p><strong>Outlet:</strong> {{ $report->assignment->outlet->name }}</p>
+                    <p><strong>Report:</strong> {{ $report->template->name }}</p>
+                    <p><strong>Remote:</strong> {{ $report->assignment->outlet->name }}</p>
                 </div>
                 <div class="col-md-6">
                     <p><strong>Completed Date:</strong> {{ $report->completed_at->format('M d, Y, h:i A') }}</p>
@@ -73,7 +73,7 @@
     <!-- Report Responses -->
     <div class="card shadow mb-4">
         <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">QA Checklist Responses</h5>
+            <h5 class="mb-0">Report Responses</h5>
         </div>
         <div class="card-body">
         @foreach($report->responses as $response)

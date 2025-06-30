@@ -32,9 +32,9 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <p><strong>Template:</strong> {{ $report->template->name }}</p>
+                    <p><strong>Report:</strong> {{ $report->template->name }}</p>
                     <p><strong>Staff Member:</strong> {{ $report->staff->name }}</p>
-                    <p><strong>Outlet:</strong> {{ $report->assignment->outlet->name }}</p>
+                    <p><strong>Remote:</strong> {{ $report->assignment->outlet->name }}</p>
                 </div>
                 <div class="col-md-6">
                     <p><strong>Submitted On:</strong> {{ $report->completed_at->format('M d, Y, h:i A') }}</p>
@@ -66,7 +66,7 @@
     <!-- Report Responses -->
     <div class="card shadow mb-4">
         <div class="card-header">
-            <h5 class="mb-0">QA Checklist Responses</h5>
+            <h5 class="mb-0">Report Responses</h5>
         </div>
         <div class="card-body">
         @foreach($report->responses as $response)
