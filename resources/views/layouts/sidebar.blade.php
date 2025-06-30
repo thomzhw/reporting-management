@@ -182,7 +182,7 @@
     </div>
 
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{ route('profile.show') }}">
             <i class="fas fa-fw fa-user-circle"></i>
             <span>My Profile</span>
         </a>

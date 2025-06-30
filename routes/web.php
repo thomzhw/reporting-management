@@ -14,6 +14,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\Staff\QaReportController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\SuperuserController;
+use App\Http\Controllers\UserProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,15 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Protected Routes (Semua yang butuh auth di sini)
 Route::middleware('auth')->group(function () {
+    // Profile Routes - place these inside your middleware('auth') group
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [UserProfileController::class, 'show'])->name('profile.show');
+        Route::get('/edit', [UserProfileController::class, 'edit'])->name('profile.edit');
+        Route::put('/update', [UserProfileController::class, 'update'])->name('profile.update');
+        Route::get('/change-password', [UserProfileController::class, 'changePassword'])->name('profile.change-password');
+        Route::put('/update-password', [UserProfileController::class, 'updatePassword'])->name('profile.update-password');
+    });
+
     // Superuser Routes
     Route::prefix('superuser')->group(function () {
         Route::get('/dashboard', [SuperuserController::class, 'dashboard'])
