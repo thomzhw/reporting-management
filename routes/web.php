@@ -118,6 +118,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/store', [AssignTemplateController::class, 'store'])->name('head.assignments.store');
             Route::get('/{assignment}', [AssignTemplateController::class, 'show'])->name('head.assignments.show');
             Route::delete('/{assignment}', [AssignTemplateController::class, 'destroy'])->name('head.assignments.destroy');
+            Route::get('/{assignment}/export-pdf', [AssignTemplateController::class, 'exportPdf'])->name('head.assignments.export-pdf');
         });
 
         Route::prefix('outlets')->middleware('permission:head.qa.assign')->group(function () {

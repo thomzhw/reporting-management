@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\QaTemplate;
 use App\Models\QaTemplateAssignment;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -175,5 +176,21 @@ class AssignTemplateController extends Controller
             'staff' => $staff,
             'templates' => $templates
         ]);
+    }
+
+    public function exportPdf(QaTemplateAssignment $assignment)
+    {
+        // Ensure this assignment was created by the authenticated head
+        if ($assignment->assigned_by != Auth::id()) {
+            abort(403, 'Unauthorized');
+        }
+        
+        $assignment->load(['template.rules', 'staff', 'outlet', 'report.responses.rule']);
+        
+        // Generate PDF using a PDF view
+        $pdf = Pdf::loadView('head.assignments.pdf', compact('assignment'));
+        
+        // Download the PDF with a custom filename
+        return $pdf->download('Assignment-' . $assignment->assignment_reference . '.pdf');
     }
 }
