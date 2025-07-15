@@ -122,9 +122,9 @@
                 <i class="fas fa-check-circle text-success mr-1"></i> 
                 This report was submitted on {{ $report->completed_at->format('F d, Y') }} at {{ $report->completed_at->format('h:i A') }}.
                 @if($report->status == 'approved')
-                    <br><span class="text-success">Approved by head on {{ $report->reviewed_at->format('F d, Y') }}.</span>
+                    <br><span class="text-success">Approved by timhub on {{ $report->reviewed_at->format('F d, Y') }}.</span>
                 @elseif($report->status == 'rejected')
-                    <br><span class="text-danger">Rejected by head on {{ $report->reviewed_at->format('F d, Y') }}.</span>
+                    <br><span class="text-danger">Rejected by timhub on {{ $report->reviewed_at->format('F d, Y') }}.</span>
                 @endif
             </p>
         </div>

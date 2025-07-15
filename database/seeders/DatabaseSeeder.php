@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         // Roles
         $superuser = Role::create(['name' => 'superuser']);
-        $head = Role::create(['name' => 'head']);
+        $head = Role::create(['name' => 'timhub']);
         $staff = Role::create(['name' => 'staff']);
 
         // ===================== PERMISSIONS =====================
@@ -94,24 +94,24 @@ class DatabaseSeeder extends Seeder
         // ===================== USERS =====================
         // Buat superuser
         User::create([
-            'name' => 'Super User',
-            'email' => 'super@example.com',
+            'name' => 'Superuser',
+            'email' => 'superuser@mitrakom.com',
             'password' => Hash::make('password123'),
             'role_id' => $superuser->id
         ]);
 
         // Buat contoh head
         User::create([
-            'name' => 'Head User',
-            'email' => 'head@example.com',
+            'name' => 'Helpdesk',
+            'email' => 'helpdesk@mitrakom.com',
             'password' => Hash::make('password123'),
             'role_id' => $head->id
         ]);
 
         // Buat contoh staff
         User::create([
-            'name' => 'Staff User',
-            'email' => 'staff@example.com',
+            'name' => 'Staff',
+            'email' => 'teknisi@mitrakom.com',
             'password' => Hash::make('password123'),
             'role_id' => $staff->id
         ]);

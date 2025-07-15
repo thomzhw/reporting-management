@@ -27,7 +27,7 @@ class LoginController extends Controller
             // Determine redirect URL based on role
             $redirectUrl = match($user->role->name) {
                 'superuser' => route('superuser.dashboard'),
-                'head' => route('head.dashboard'),
+                'timhub' => route('head.dashboard'),
                 default => route('staff.dashboard')
             };
             

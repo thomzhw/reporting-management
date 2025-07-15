@@ -69,6 +69,14 @@ class OutletController extends Controller
      */
     public function update(Request $request, Outlet $outlet)
     {
+        $isChangingStatus = $request->has('status') && $request->status !== $outlet->status;
+        
+        // If changing status, check if outlet has staff or head
+        if ($isChangingStatus && ($outlet->heads()->count() > 0 || $outlet->staffs()->count() > 0)) {
+            return redirect()->route('outlets.index')
+                ->with('error', 'Cannot change outlet status because it has associated staff or head.');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string',
@@ -79,7 +87,7 @@ class OutletController extends Controller
             'description' => 'nullable|string',
             'status' => 'required|in:active,inactive',
         ]);
-        
+
         $outlet->update($request->all());
         
         return redirect()->route('outlets.index')
@@ -95,9 +103,9 @@ class OutletController extends Controller
     \DB::beginTransaction();
     
     try {
-        if($outlet->heads()->exists() || $outlet->staffs()->exists()) {
+        if($outlet->staffs()->exists()) {
             return back()->withErrors([
-                'outlet' => 'Cannot delete: Outlet has Head or Staff!'
+                'outlet' => 'Cannot delete: Outlet has Staff!'
             ]);
         }
         
@@ -132,7 +140,7 @@ class OutletController extends Controller
     public function assignHeads(Outlet $outlet)
     {
         $heads = User::whereHas('role', function($q) {
-            $q->where('name', 'head');
+            $q->where('name', 'timhub');
         })->get();
         
         $assignedHeads = $outlet->heads;
@@ -153,6 +161,6 @@ class OutletController extends Controller
         $outlet->heads()->sync($request->head_ids);
         
         return redirect()->route('outlets.show', $outlet)
-            ->with('success', 'Heads assigned to outlet successfully.');
+            ->with('success', 'Timhubs assigned to remote successfully.');
     }
 }

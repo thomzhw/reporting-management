@@ -99,7 +99,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // Group route untuk head
-    Route::prefix('head')->middleware('permission:head.access')->group(function () {
+    Route::prefix('timhub')->middleware('permission:head.access')->group(function () {
         // Dashboard
         Route::get('/dashboard', [HeadController::class, 'dashboard'])->name('head.dashboard');
 
