@@ -153,7 +153,15 @@
                                     </td>
                                     <td>{{ $response->response }}</td>
                                     <td>
-                                        @if($response->photo_path)
+                                        @if($response->photos->count() > 0)
+                                            <div class="d-flex flex-wrap">
+                                                @foreach($response->photos as $photo)
+                                                    <a href="{{ asset('storage/'.$photo->photo_path) }}" target="_blank" class="mr-2 mb-2">
+                                                        <img src="{{ asset('storage/'.$photo->photo_path) }}" class="img-thumbnail" style="max-height: 100px;">
+                                                    </a>
+                                                @endforeach
+                                            </div>
+                                        @elseif($response->photo_path)
                                             <a href="{{ asset('storage/'.$response->photo_path) }}" target="_blank">
                                                 <img src="{{ asset('storage/'.$response->photo_path) }}" class="img-thumbnail" style="max-height: 100px;">
                                             </a>

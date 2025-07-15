@@ -34,6 +34,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 15px;
+            page-break-inside: auto;
         }
         table, th, td {
             border: 1px solid #ddd;
@@ -41,6 +42,10 @@
         th, td {
             padding: 8px;
             text-align: left;
+        }
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
         }
         th {
             background-color: #f8f9fa;
@@ -84,6 +89,14 @@
             border-top: 1px solid #eee;
             padding-top: 5px;
         }
+        .photo-container {
+            margin-bottom: 10px;
+        }
+        .evidence-photo {
+            max-width: 150px;
+            max-height: 100px;
+            border: 1px solid #eee;
+        }
     </style>
 </head>
 <body>
@@ -126,7 +139,7 @@
                 </td>
             </tr>
             <tr>
-                <th>Outlet</th>
+                <th>Remote</th>
                 <td>{{ $assignment->outlet->name }}</td>
                 <th>Reference</th>
                 <td>{{ $assignment->assignment_reference ?: 'N/A' }}</td>
@@ -176,16 +189,30 @@
                 <thead>
                     <tr>
                         <th style="width: 30%">Rule</th>
-                        <th style="width: 55%">Response</th>
-                        <th style="width: 15%">Evidence</th>
+                        <th style="width: 50%">Response</th>
+                        <th style="width: 20%">Evidence</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($assignment->report->responses as $response)
-                        <tr>
+                        <tr valign="top">
                             <td>{{ $response->rule->title }}</td>
                             <td>{{ $response->response }}</td>
-                            <td style="text-align: center">{{ $response->photo_path ? 'Yes' : 'No' }}</td>
+                            <td>
+                                @if(isset($response->photos) && $response->photos->count() > 0)
+                                    @foreach($response->photos as $photo)
+                                        <div class="photo-container">
+                                            <img src="{{ public_path('storage/'.$photo->photo_path) }}" class="evidence-photo">
+                                        </div>
+                                    @endforeach
+                                @elseif($response->photo_path)
+                                    <div class="photo-container">
+                                        <img src="{{ public_path('storage/'.$response->photo_path) }}" class="evidence-photo">
+                                    </div>
+                                @else
+                                    No evidence
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

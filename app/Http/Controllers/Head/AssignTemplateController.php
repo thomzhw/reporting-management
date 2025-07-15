@@ -134,7 +134,8 @@ class AssignTemplateController extends Controller
             abort(403, 'Unauthorized');
         }
         
-        $assignment->load(['template.rules', 'staff', 'outlet', 'report.responses.rule']);
+        $assignment->load(['template.rules', 'staff', 'outlet', 'report.responses.rule', 'report.responses.photos']);
+
         
         return view('head.assignments.show', compact('assignment'));
     }
@@ -185,7 +186,8 @@ class AssignTemplateController extends Controller
             abort(403, 'Unauthorized');
         }
         
-        $assignment->load(['template.rules', 'staff', 'outlet', 'report.responses.rule']);
+        // Load all the necessary relationships including photos
+        $assignment->load(['template.rules', 'staff', 'outlet', 'report.responses.rule', 'report.responses.photos']);
         
         // Generate PDF using a PDF view
         $pdf = Pdf::loadView('head.assignments.pdf', compact('assignment'));
