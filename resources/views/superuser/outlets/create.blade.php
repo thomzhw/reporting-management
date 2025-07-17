@@ -45,10 +45,10 @@
                             <label for="type">Remote Type</label>
                             <select class="form-control @error('type') is-invalid @enderror" id="type" name="type" required>
                                 <option value="">-- Select Type --</option>
-                                <option value="store" {{ old('type') == 'store' ? 'selected' : '' }}>Store</option>
-                                <option value="restaurant" {{ old('type') == 'restaurant' ? 'selected' : '' }}>Restaurant</option>
-                                <option value="warehouse" {{ old('type') == 'warehouse' ? 'selected' : '' }}>Warehouse</option>
-                                <option value="office" {{ old('type') == 'office' ? 'selected' : '' }}>Office</option>
+                                <option value="store" {{ old('type') == 'unit' ? 'selected' : '' }}>Unit</option>
+                                <option value="restaurant" {{ old('type') == 'kk' ? 'selected' : '' }}>KK</option>
+                                <option value="warehouse" {{ old('type') == 'teras' ? 'selected' : '' }}>Teras</option>
+                                <option value="office" {{ old('type') == 'atm' ? 'selected' : '' }}>ATM</option>
                             </select>
                             @error('type')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -103,7 +103,7 @@
                         @enderror
                     </div>
                     
-                    <button type="submit" class="btn btn-primary">Create Outlet</button>
+                    <button type="submit" class="btn btn-primary">Create Remote</button>
                 </form>
             </div>
         </div>

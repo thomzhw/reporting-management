@@ -44,7 +44,7 @@ class OutletController extends Controller
         Outlet::create($request->all());
         
         return redirect()->route('outlets.index')
-            ->with('success', 'Outlet created successfully.');
+            ->with('success', 'Remote created successfully.');
     }
 
     /**
@@ -91,7 +91,7 @@ class OutletController extends Controller
         $outlet->update($request->all());
         
         return redirect()->route('outlets.index')
-            ->with('success', 'Outlet updated successfully.');
+            ->with('success', 'Remote updated successfully.');
     }
 
     /**
@@ -105,7 +105,7 @@ class OutletController extends Controller
     try {
         if($outlet->staffs()->exists()) {
             return back()->withErrors([
-                'outlet' => 'Cannot delete: Outlet has Staff!'
+                'outlet' => 'Cannot delete: Remote has Staff!'
             ]);
         }
         
@@ -124,13 +124,13 @@ class OutletController extends Controller
         \DB::commit();
         
         return redirect()->route('outlets.index')
-            ->with('success', 'Outlet deleted successfully and all related assignments have been updated.');
+            ->with('success', 'Remote deleted successfully and all related assignments have been updated.');
     } catch (\Exception $e) {
         // If anything goes wrong, rollback the transaction
         \DB::rollBack();
         
         return redirect()->route('outlets.index')
-            ->with('error', 'Failed to delete outlet: ' . $e->getMessage());
+            ->with('error', 'Failed to delete remote: ' . $e->getMessage());
     }
     }
     

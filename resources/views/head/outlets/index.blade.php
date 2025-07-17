@@ -35,7 +35,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto">
-                                        <i class="fas fa-store fa-2x text-gray-300"></i>
+                                        <i class="fas fa-signal fa-2x text-gray-300"></i>
                                     </div>
                                 </div>
                                 <div class="row mt-3">

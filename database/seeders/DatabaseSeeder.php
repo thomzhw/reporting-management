@@ -29,23 +29,18 @@ class DatabaseSeeder extends Seeder
             ['slug' => 'role.manage', 'description' => 'Manage roles'],
             ['slug' => 'permission.manage', 'description' => 'Manage permissions'],
             ['slug' => 'superuser.access', 'description' => 'Access superuser panel'],
-            ['slug' => 'superuser.outlet.manage', 'description' => 'Superuser outlet manage'],
+            ['slug' => 'superuser.remotes.manage', 'description' => 'Superuser remotes manage'],
             
             // Head permissions
-            ['slug' => 'head.access', 'description' => 'Access Head Dashboard'],
-            ['slug' => 'head.team.manage', 'description' => 'Manage Team Members'],
-            ['slug' => 'head.performance.view', 'description' => 'View Performance Reports'],
-            ['slug' => 'head.tasks.view', 'description' => 'View Team Tasks'],
-            ['slug' => 'head.targets.manage', 'description' => 'Manage Team Targets'],
-            ['slug' => 'head.qa.manage', 'description' => 'Manage QA Templates'],
-            ['slug' => 'head.qa.assign', 'description' => 'Assign QA Templates'],
+            ['slug' => 'timhub.access', 'description' => 'Access Timhub Dashboard'],
+            ['slug' => 'timhub.performance.view', 'description' => 'View Performance Reports'],
+            ['slug' => 'timhub.tasks.view', 'description' => 'View Team Tasks'],
+            ['slug' => 'timhub.reporting.manage', 'description' => 'Manage Reporting Templates'],
+            ['slug' => 'timhub.reporting.assign', 'description' => 'Assign Report'],
+            ['slug' => 'timhub.remote.manage', 'description' => 'Manage Remotes Head'],
 
             // Staff permissions
             ['slug' => 'staff.access', 'description' => 'Access Staff Dashboard'],
-            ['slug' => 'staff.qa.submit', 'description' => 'Submit QA Reports'],
-            ['slug' => 'staff.profile.view', 'description' => 'View own profile'],
-            ['slug' => 'staff.performance.view', 'description' => 'View personal performance reports'],
-            ['slug' => 'staff.tasks.view', 'description' => 'View assigned tasks'],
         ];
         
         foreach ($allPermissions as $permission) {
@@ -59,7 +54,7 @@ class DatabaseSeeder extends Seeder
             'role.manage',
             'permission.manage',
             'superuser.access',
-            'superuser.outlet.manage'
+            'superuser.remotes.manage'
         ];
         $superuser->permissions()->attach(
             Permission::whereIn('slug', $superuserPermissions)->pluck('id')
@@ -67,13 +62,13 @@ class DatabaseSeeder extends Seeder
 
         // Assign permission ke role head
         $headPermissions = [
-            'head.access',
-            'head.team.manage',
-            'head.performance.view',
-            'head.tasks.view',
-            'head.targets.manage',
-            'head.qa.manage',
-            'head.qa.assign'
+            'timhub.access',
+            'timhub.team.manage',
+            'timhub.performance.view',
+            'timhub.tasks.view',
+            'timhub.reporting.manage',
+            'timhub.reporting.assign',
+            'timhub.remote.manage',
         ];
         $head->permissions()->attach(
             Permission::whereIn('slug', $headPermissions)->pluck('id')
@@ -82,10 +77,6 @@ class DatabaseSeeder extends Seeder
         // Assign permission ke role staff
         $staffPermissions = [
             'staff.access',
-            'staff.qa.submit',
-            'staff.profile.view',
-            'staff.performance.view',
-            'staff.tasks.view',
         ];
         $staff->permissions()->attach(
             Permission::whereIn('slug', $staffPermissions)->pluck('id')

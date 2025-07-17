@@ -63,8 +63,8 @@ Route::middleware('auth')->group(function () {
             
         // roles
         Route::prefix('roles')->middleware('permission:role.manage')->group(function () {
-            Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
-            Route::post('/roles', [RoleController::class, 'store'])->name('roles.store');
+            Route::get('/', [RoleController::class, 'index'])->name('roles.index');
+            Route::post('/store', [RoleController::class, 'store'])->name('roles.store');
             Route::get('/roles/{role}/edit', [RoleController::class, 'edit'])->name('roles.edit');
             Route::put('/roles/{role}', [RoleController::class, 'update'])->name('roles.update');
             Route::delete('/roles/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
@@ -82,8 +82,8 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{permission}', [PermissionController::class, 'destroy'])->name('permissions.destroy');
         });
 
-        // Outlet Management
-        Route::prefix('outlets')->middleware('permission:superuser.outlet.manage')->group(function () {
+        // Remote Management
+        Route::prefix('remotes')->middleware('permission:superuser.remotes.manage')->group(function () {
             Route::get('/', [OutletController::class, 'index'])->name('outlets.index');
             Route::get('/create', [OutletController::class, 'create'])->name('outlets.create');
             Route::post('/store', [OutletController::class, 'store'])->name('outlets.store');
@@ -99,11 +99,11 @@ Route::middleware('auth')->group(function () {
     });
 
     // Group route untuk head
-    Route::prefix('timhub')->middleware('permission:head.access')->group(function () {
+    Route::prefix('timhub')->middleware('permission:timhub.access')->group(function () {
         // Dashboard
         Route::get('/dashboard', [HeadController::class, 'dashboard'])->name('head.dashboard');
 
-        Route::prefix('qa-templates')->middleware('permission:head.qa.manage')->group(function () {
+        Route::prefix('report-templates')->middleware('permission:timhub.reporting.manage')->group(function () {
             Route::get('/', [QaTemplateController::class, 'index'])->name('head.qa-templates');
             Route::get('/create', [QaTemplateController::class, 'create'])->name('head.qa-templates.create');
             Route::post('/', [QaTemplateController::class, 'store'])->name('head.qa-templates.store');
@@ -112,7 +112,7 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{template}', [QaTemplateController::class, 'destroy'])->name('head.qa-templates.destroy');
         });
 
-        Route::prefix('assignments')->middleware('permission:head.qa.assign')->group(function () {
+        Route::prefix('assignments')->middleware('permission:timhub.reporting.assign')->group(function () {
             Route::get('/', [AssignTemplateController::class, 'index'])->name('head.assignments.index');
             Route::get('/create', [AssignTemplateController::class, 'create'])->name('head.assignments.create');
             Route::post('/store', [AssignTemplateController::class, 'store'])->name('head.assignments.store');
@@ -121,7 +121,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/{assignment}/export-pdf', [AssignTemplateController::class, 'exportPdf'])->name('head.assignments.export-pdf');
         });
 
-        Route::prefix('outlets')->middleware('permission:head.qa.assign')->group(function () {
+        Route::prefix('remotes')->middleware('permission:timhub.remote.manage')->group(function () {
             Route::get('/', [HeadOutletController::class, 'index'])->name('head.outlets.index');
             Route::get('/{outlet}', [HeadOutletController::class, 'show'])->name('head.outlets.show');
             Route::get('/{outlet}/assign-staff', [HeadOutletController::class, 'assignStaff'])->name('head.outlets.assign-staff');
@@ -145,7 +145,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard', [StaffController::class, 'dashboard'])->name('staff.dashboard');
         
         // QA Reporting
-        Route::prefix('qa-reports')->group(function () {
+        Route::prefix('reports')->group(function () {
             Route::get('/', [QaReportController::class, 'index'])->name('staff.qa-reports.index');
             Route::get('/create/{assignment}', [QaReportController::class, 'create'])->name('staff.qa-reports.create');
             Route::post('/{assignment}', [QaReportController::class, 'store'])->name('staff.qa-reports.store');

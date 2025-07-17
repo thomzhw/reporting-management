@@ -59,8 +59,8 @@
             </li>
         @endif
 
-        @if($user->hasAccess('superuser.outlet.manage'))
-            <li class="nav-item {{ request()->routeIs('outlets.*') ? 'active' : '' }}">
+        @if($user->hasAccess('superuser.remotes.manage'))
+            <li class="nav-item {{ request()->routeIs('remotes.*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('outlets.index') }}">
                     <i class="fas fa-fw fa-signal"></i>
                     <span>Manage Remotes</span>
@@ -72,7 +72,7 @@
     @endif
 
     <!-- HEAD SECTION -->
-    @if($user->hasAccess('head.access'))
+    @if($user->hasAccess('timhub.access'))
         <!-- Dashboard -->
         @if(!$user->hasAccess('superuser.access'))
             <li class="nav-item {{ request()->routeIs('head.dashboard') ? 'active' : '' }}">
@@ -89,7 +89,7 @@
             Team Management
         </div>
 
-        @if($user->hasAccess('head.qa.manage'))
+        @if($user->hasAccess('timhub.reporting.manage'))
             <li class="nav-item {{ request()->routeIs('head.qa-templates*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('head.qa-templates') }}">
                     <i class="fas fa-fw fa-clipboard-list"></i>
@@ -98,7 +98,7 @@
             </li>
         @endif
 
-        @if($user->hasAccess('head.qa.assign'))
+        @if($user->hasAccess('timhub.remote.manage'))
             <!-- Outlets -->
             <li class="nav-item {{ request()->routeIs('head.outlets.*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('head.outlets.index') }}">
@@ -106,7 +106,9 @@
                     <span>My Remotes</span>
                 </a>
             </li>
+        @endif
 
+        @if($user->hasAccess('timhub.reporting.assign'))
             <!-- Assignments -->
             <li class="nav-item {{ request()->routeIs('head.assignments.*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('head.assignments.index') }}">
@@ -157,7 +159,7 @@
         <li class="nav-item {{ request()->routeIs('staff.qa-reports.*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('staff.qa-reports.index') }}">
                 <i class="fas fa-fw fa-clipboard-check"></i>
-                <span>My QA Reports</span>
+                <span>My Reports</span>
                 @php
                     // Only count rejected reports for actual staff (not superusers/heads viewing staff section)
                     $rejectedReports = 0;
