@@ -28,7 +28,7 @@ class SuperuserController extends Controller
         })->count();
         
         $headCount = User::whereHas('role', function($query) {
-            $query->where('name', 'head');
+            $query->where('name', 'timhub');
         })->count();
         
         $staffCount = User::whereHas('role', function($query) {
@@ -36,7 +36,7 @@ class SuperuserController extends Controller
         })->count();
         
         $otherCount = User::whereDoesntHave('role', function($query) {
-            $query->whereIn('name', ['superuser', 'head', 'staff']);
+            $query->whereIn('name', ['superuser', 'timhub', 'staff']);
         })->count();
         
         $roleData = [
